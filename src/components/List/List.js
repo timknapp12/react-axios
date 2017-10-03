@@ -9,8 +9,9 @@ class List extends Component {
 
   render() {
     const {
-      customerList
+      customerList, startNewCustomer,
     } = this.props;
+
 
     const CustomerComponents = customerList.map( customer => (
       <Customer
@@ -26,7 +27,7 @@ class List extends Component {
         {
             <div id="List__namesContainer">
               { CustomerComponents }
-              <CreateCustomer />
+              <CreateCustomer startNewCustomer={startNewCustomer}/>
             </div>
         }
       </div>
