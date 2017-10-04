@@ -5,7 +5,7 @@ import Header from './Header/Header';
 import List from './List/List';
 import Workspace from './Workspace/Workspace';
 import { postCustomer } from '../customers'
-import { getCustomerList } from '../customers';
+import { getCustomerList, getCustomer, updateCustomer, deleteCustomer } from '../customers';
 
 class App extends Component {
   constructor() {
@@ -17,6 +17,8 @@ class App extends Component {
       currentCustomer: null
     }
     this.createCustomer = this.createCustomer.bind(this);
+    this.selectCustomer = this.selectCustomer.bind(this);
+    this.removeCustomer = this.removeCustomer.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +39,36 @@ class App extends Component {
       })
     })
   }
+  selectCustomer(id) {
+    getCustomer(id).then((response) => {
+      this.setState({currentCustomer: response.data, initialLoad: false
+      })
+    })
+  }
+
+  saveEdit(id, customer) {
+    updateCustomer(id, customer).then((updatedCustomer) => {
+      getCustomerList().then((list) => {
+        this.setState({
+          customerList: list,
+          currentCustomer: updatedCustomer
+        })
+      })
+    })
+  }
+
+  removeCustomer(id) {
+    deleteCustomer(id).then((removedCustomer) => {
+      getCustomerList().then((list) => {
+        this.setState({
+          customerList: list,
+          currentCustomer: null,
+          initialLoad: null
+        })
+      })
+    })
+  }
+
   render() {
     return (
       <div>
@@ -46,13 +78,16 @@ class App extends Component {
             this.state.customerList ?
               <List
                 customerList={this.state.customerList || []}
-                startNewCustomer={this.startNewCustomer} />
+                startNewCustomer={this.startNewCustomer}
+                selectCustomer={this.selectCustomer} />
               : null
           }
           <Workspace initialLoad={this.state.initialLoad}
             createCustomer={this.createCustomer}
             currentCustomer={this.state.currentCustomer}
             creating={this.state.creating}
+            saveEdit={this.saveEdit}
+            removeCustomer={this.removeCustomer}
           />
         </div>
       </div>

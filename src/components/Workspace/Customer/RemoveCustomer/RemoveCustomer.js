@@ -8,27 +8,31 @@ export default class RemoveCustomer extends Component {
       showConfirm: false
     };
 
-    this.toggle = this.toggle.bind( this );
-    this.remove = this.remove.bind( this );
+    this.toggle = this.toggle.bind(this);
+    this.remove = this.remove.bind(this);
+    this.removeCustomer = this.removeCustomer.bind(this);
   }
 
   toggle() {
     this.setState({ showConfirm: !this.state.showConfirm });
   }
 
+  remove() {
+    this.props.removeCustomer(this.props.id);
+  }
 
   render() {
     return (
       <div id="RemoveCustomer__container">
-        <button className="RemoveCustomer__removeBtn" onClick={ this.toggle } disabled={ this.state.showConfirm }> Remove </button>
+        <button className="RemoveCustomer__removeBtn" onClick={this.toggle} disabled={this.state.showConfirm}> Remove </button>
         {
           this.state.showConfirm
-          ?
+            ?
             <div id="RemoveCustomer__confirmationContainer">
-              <button id="RemoveCustomer__cancelBtn" onClick={ this.toggle }> Cancel </button>
-              <button className="RemoveCustomer__removeBtn" onClick={ '' }> Confirm </button>
+              <button id="RemoveCustomer__cancelBtn" onClick={this.toggle}> Cancel </button>
+              <button className="RemoveCustomer__removeBtn" onClick={this.remove}> Confirm </button>
             </div>
-          :
+            :
             null
         }
       </div>

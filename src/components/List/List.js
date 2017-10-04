@@ -9,7 +9,7 @@ class List extends Component {
 
   render() {
     const {
-      customerList, startNewCustomer,
+      customerList, startNewCustomer, selectCustomer
     } = this.props;
 
 
@@ -19,6 +19,7 @@ class List extends Component {
         id={ customer.id }
         first={ customer.first }
         last={ customer.last }
+        selectCustomer={selectCustomer}
       />
     ));
 
